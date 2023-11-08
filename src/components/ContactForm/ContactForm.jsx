@@ -1,33 +1,36 @@
-// import { useReducer } from 'react';
-import css from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName, setNumber } from 'redux/contactForm/contactFormSlice';
+import { selectContacts } from 'redux/contacts/selectors';
+// import { createContact } from 'api/phonebookApi';
+import css from './ContactForm.module.css';
+import { addContact } from 'redux/contacts/operations';
+// import { createContact } from 'api/phonebookApi';
 
-export const ContactForm = ({ createContact }) => {
-  const state = useSelector(state => state.contactForm);
-
+export const ContactForm = () => {
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const handleChange = ({ target }) => {
-    if (target.name === 'name') {
-      dispatch(setName(target.value));
-    }
-    if (target.name === 'number') {
-      dispatch(setNumber(target.value));
-    }
-  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    const lowerCaseName = name.toLowerCase();
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
+    const isContactExist = contacts.some(
+      contact =>
+        (contact.name.toLowerCase() === lowerCaseName &&
+          contact.phone === number) ||
+        contact.phone === number ||
+        contact.name.toLowerCase() === lowerCaseName
+    );
 
-    createContact(state);
+    isContactExist
+      ? alert(
+          `Contact with that ${name} or ${number} is already present in the phonebook.`
+        )
+      : dispatch(addContact({ name: name, phone: number }));
 
-    reset();
-  };
-
-  const reset = () => {
-    dispatch(setName(''));
-    dispatch(setNumber(''));
+    form.reset();
   };
 
   return (
@@ -38,11 +41,11 @@ export const ContactForm = ({ createContact }) => {
           className={css.input}
           type="text"
           name="name"
-          required
-          onChange={handleChange}
-          value={state.name}
+          // onChange={handleChange}
+          value={contacts.name}
           placeholder="Enter name..."
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          required
         />
       </label>
       <label className={css.label}>
@@ -51,11 +54,11 @@ export const ContactForm = ({ createContact }) => {
           className={css.input}
           type="tel"
           name="number"
-          required
-          onChange={handleChange}
-          value={state.number}
+          // onChange={handleChange}
+          value={contacts.number}
           placeholder="Enter number..."
           pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+          required
         />
       </label>
       <button type="submit" className={css.btn}>
