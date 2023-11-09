@@ -4,13 +4,11 @@ import {
   selectError,
   selectFilter,
   selectIsLoading,
-  selectorContactsFilter,
 } from 'redux/contacts/selectors';
 import { deleteContact, getContacts } from 'redux/contacts/operations';
 
-import css from './ContactList.module.css';
 import { useEffect } from 'react';
-// import { getContacts } from 'api/phonebookApi';
+import css from './ContactList.module.css';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -19,8 +17,6 @@ export const ContactList = () => {
   const filter = useSelector(selectFilter);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  // const visibleContacts = useSelector(selectorContactsFilter);
-  console.log(contacts);
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -38,10 +34,12 @@ export const ContactList = () => {
     <ul className={css.list}>
       {filteredContacts.map(({ id, name, phone }) => (
         <li className={css.item} key={id}>
-          <p>{name}</p>
-          <p>{phone}</p>
+          <div className={css.contactInfo}>
+            <p className={css.name}>{name}</p>
+            <p className={css.phone}>{phone}</p>
+          </div>
           <button
-            className={css.buttons}
+            className={css.button}
             value={id}
             onClick={() => handleDeleteContact(id)}
             type="button"
@@ -50,24 +48,8 @@ export const ContactList = () => {
           </button>
         </li>
       ))}
-      {isLoading && <b>Loading...</b>}
+      {isLoading && <p className={css.loader}>Loading, please wait</p>}
       {error && <p>Oppsss Erorr</p>}
     </ul>
   );
-
-  // return (
-  //   <ul className={css.list}>
-  //     {visibleContacts.map(({ name, number, id }) => {
-  //       return (
-  //         <ContactListItem
-  //           key={id}
-  //           id={id}
-  //           name={name}
-  //           number={number}
-  //           onClick={() => handleDeleteContact(id)}
-  //         />
-  //       );
-  //     })}
-  //   </ul>
-  // );
 };

@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/contacts/selectors';
-// import { createContact } from 'api/phonebookApi';
-import css from './ContactForm.module.css';
 import { addContact } from 'redux/contacts/operations';
-// import { createContact } from 'api/phonebookApi';
+import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const contacts = useSelector(selectContacts);
@@ -41,7 +39,6 @@ export const ContactForm = () => {
           className={css.input}
           type="text"
           name="name"
-          // onChange={handleChange}
           value={contacts.name}
           placeholder="Enter name..."
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -54,7 +51,6 @@ export const ContactForm = () => {
           className={css.input}
           type="tel"
           name="number"
-          // onChange={handleChange}
           value={contacts.number}
           placeholder="Enter number..."
           pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"

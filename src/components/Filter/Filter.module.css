@@ -1,5 +1,6 @@
 .filterlabel {
-  font-size: 18px;
+  font-size: 24px;
+  color: #8a6657;
 }
 
 .filterinput {
@@ -7,4 +8,6 @@
   margin-left: 12px;
   margin-bottom: 20px;
   border-radius: 6px;
+  border: none;
+  background-color: #b9daf0;
 }

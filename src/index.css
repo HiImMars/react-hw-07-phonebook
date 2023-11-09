@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #474853;
 }
 
 code {
@@ -48,12 +49,12 @@ button {
   margin-top: 40px;
   margin-bottom: 60px;
   padding: 10px;
-  border: 1px solid blueviolet;
-  box-shadow: rgba(94, 14, 163, 0.4) -5px 5px, rgba(94, 14, 163, 0.3) -10px 10px,
-    rgba(94, 14, 163, 0.2) -15px 15px, rgba(94, 14, 163, 0.1) -20px 20px,
-    rgba(94, 14, 163, 0.05) -25px 25px;
+  border: 2px solid #e8a87c;
+  box-shadow: rgba(255, 138, 55, 0.19) 0px 10px 20px,
+    rgba(255, 173, 57, 0.23) 0px 6px 6px;
 }
 
 .title {
   margin-bottom: 20px;
+  color: #86b3d1;
 }
