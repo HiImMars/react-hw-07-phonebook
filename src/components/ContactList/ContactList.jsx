@@ -1,17 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectFilter } from 'redux/contacts/selectors';
-import { deleteContact } from 'redux/contacts/operations';
+import {
+  selectContacts,
+  selectError,
+  selectFilter,
+  selectIsLoading,
+  selectorContactsFilter,
+} from 'redux/contacts/selectors';
+import { deleteContact, getContacts } from 'redux/contacts/operations';
 
 import css from './ContactList.module.css';
+import { useEffect } from 'react';
+// import { getContacts } from 'api/phonebookApi';
 
 export const ContactList = () => {
-  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const filteredContacts = useSelector(selectFilter);
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filteredContacts.toLowerCase())
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  // const visibleContacts = useSelector(selectorContactsFilter);
+  console.log(contacts);
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  useEffect(() => {
+    dispatch(getContacts());
+  }, [dispatch]);
 
   const handleDeleteContact = contactId => {
     dispatch(deleteContact(contactId));
@@ -19,7 +36,7 @@ export const ContactList = () => {
 
   return (
     <ul className={css.list}>
-      {visibleContacts.map(({ id, name, phone }) => (
+      {filteredContacts.map(({ id, name, phone }) => (
         <li className={css.item} key={id}>
           <p>{name}</p>
           <p>{phone}</p>
@@ -33,6 +50,8 @@ export const ContactList = () => {
           </button>
         </li>
       ))}
+      {isLoading && <b>Loading...</b>}
+      {error && <p>Oppsss Erorr</p>}
     </ul>
   );
 
